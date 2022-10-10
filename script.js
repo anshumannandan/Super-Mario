@@ -45,7 +45,7 @@ class Base{
 const object=new Character();  
 // const base=new Base();
 const multibase=[new Base({x:100,y:400},200,20),new Base({x:400,y:200},200,20),new Base({x:700,y:100},200,20),new Base({x:1100,y:200},200,20),new Base({x:-60,y:700},700,120)
-,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720)]; 
+,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20)]; 
 const keys={
     right:{
         pressed:false
@@ -65,7 +65,7 @@ function Move(){
      })
     if(keys.right.pressed && object. position.x<400)
         object.velocity.x=5;
-    else if(keys.left.pressed && object.position.x>0)
+    else if(keys.left.pressed && object.position.x-(object.width)/2>0)
         object.velocity.x=-5;
     else 
         object.velocity.x=0;  
