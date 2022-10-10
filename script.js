@@ -27,13 +27,13 @@ class Character{
     }  
 }
 class Base{
-    constructor({x,y})
+    constructor({x,y},width,height)
     {
         this.position={
             x,y
         }
-        this.width=200;
-        this.height=20;
+        this.width=width;
+        this.height=height;
     }
     draw()
     {
@@ -44,7 +44,8 @@ class Base{
 } 
 const object=new Character();  
 // const base=new Base();
-const multibase=[new Base({x:100,y:400}),new Base({x:400,y:200}),new Base({x:700,y:100})]; 
+const multibase=[new Base({x:100,y:400},200,20),new Base({x:400,y:200},200,20),new Base({x:700,y:100},200,20),new Base({x:1100,y:200},200,20),new Base({x:-60,y:700},700,120)
+,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720)]; 
 const keys={
     right:{
         pressed:false
@@ -66,7 +67,7 @@ function Move(){
         object.velocity.x=5;
     else if(keys.left.pressed && object.position.x>0)
         object.velocity.x=-5;
-    else
+    else 
         object.velocity.x=0;  
     
     if(keys.right.pressed)
@@ -98,7 +99,7 @@ Move();
 document.onkeydown = (e) => {
     e = e || window.event;
     if (e.key === 'ArrowUp' ) {
-        object.velocity.y=-30; 
+        object.velocity.y=-20; 
     } 
     else if (e.key === 'ArrowLeft') {
         object.velocity.x=-5;
