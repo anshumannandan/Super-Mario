@@ -7,7 +7,7 @@ class Character {
     constructor() {
         this.velocity = { x: 0, y: 5 };
         this.position = { x: 100, y: 600 };
-        this.frame = { x: 0, speed: 0, start: 0, end: 1, width: 26}
+        this.frame = { x: 0, speed: 0, start: 0, end: 1}
         this.charimg = new Image();
         this.charimg.src = "images/standright.png";
     }
@@ -27,7 +27,7 @@ class Character {
         else {
             this.velocity.y = 0;
         }
-        context.drawImage(this.charimg, this.frame.width * this.frame.x, 0, this.frame.width, 38, this.position.x, this.position.y, 60, 60);
+        context.drawImage(this.charimg, 35 * this.frame.x, 0, 35, 38, this.position.x, this.position.y, 60, 60);
     }
 }
 class Base{
@@ -66,12 +66,12 @@ function Move(){
     multibase.forEach((base)=> {
         base.draw();
      })
-    if(keys.right.pressed && object. position.x<400)
-        object.velocity.x=5;
-    else if(keys.left.pressed && object.position.x>0)
-        object.velocity.x=-5;
-    else 
-        object.velocity.x=0;  
+    // if(keys.right.pressed && object. position.x<400)
+    //     object.velocity.x=5;
+    // else if(keys.left.pressed && object.position.x>0)
+    //     object.velocity.x=-5;
+    // else 
+    //     object.velocity.x=0;  
     
     if(keys.right.pressed)
     {
@@ -109,18 +109,18 @@ document.onkeydown = (e) => {
         // } else if (e.key === 'ArrowDown') {
         // object.radius=5;
     } else if (e.key === 'ArrowLeft') {
-        object.velocity.x = -20;
+        object.velocity.x = -5;
         if (boolleftrun){
-            object.frame = { x: 0, speed: 0, start: 0, end: 3, width: 35}
+            object.frame = { x: 0, speed: 0, start: 0, end: 3}
             boolleftrun=false;
         }
         object.charimg.src = "images/runleft.png";
 
     } else if (e.key === 'ArrowRight') {
-        object.velocity.x = 20;
+        object.velocity.x = 5;
         object.charimg.src = "images/runright.png";
         if (boolrightrun) {
-            object.frame = { x: 0, speed: 0, start: 0, end: 3, width: 35}
+            object.frame = { x: 0, speed: 0, start: 0, end: 3}
             boolrightrun = false
         }
     }
@@ -135,12 +135,12 @@ document.onkeyup = (e) => {
     } else if (e.key === 'ArrowLeft') {
         object.velocity.x = 0;
         object.charimg.src = "images/standleft.png";
-        object.frame = { x: 0, speed: 0, start: 0, end: 1, width: 26}
+        object.frame = { x: 0, speed: 0, start: 0, end: 1}
         boolleftrun=true;
     } else if (e.key === 'ArrowRight') {
         object.velocity.x = 0;
         object.charimg.src = "images/standright.png";
-        object.frame = { x: 0, speed: 0, start: 0, end: 1, width: 26}
+        object.frame = { x: 0, speed: 0, start: 0, end: 1}
         boolrightrun=true;
     }
 }
