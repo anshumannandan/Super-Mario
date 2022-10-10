@@ -2,11 +2,11 @@ let gamespace = document.getElementsByTagName("canvas")[0];
 const context = gamespace.getContext('2d');
 gamespace.height = window.innerHeight;
 gamespace.width = window.innerWidth;
-var g = 0.69;
+var g = 0.5;
 class Character {
     constructor() {
-        this.velocity = { x: 0, y: 0 };
-        this.position = { x: 100, y: 100 };
+        this.velocity = { x: 0, y: 5 };
+        this.position = { x: 100, y: 600 };
         this.frame = { x: 0, speed: 0, start: 0, end: 1, width: 26}
         this.charimg = new Image();
         this.charimg.src = "images/standright.png";
@@ -21,7 +21,7 @@ class Character {
         }
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
-        if (object.position.y < 0.5 * gamespace.height) {
+        if (this.position.y+this.velocity.y<=gamespace.height) {
             this.velocity.y += g;
         }
         else {
@@ -30,38 +30,73 @@ class Character {
         context.drawImage(this.charimg, this.frame.width * this.frame.x, 0, this.frame.width, 38, this.position.x, this.position.y, 60, 60);
     }
 }
-class Base {
-    constructor() {
-        this.position = { x: 200, y: 100 };
-        this.width = 200;
-        this.height = 20;
+class Base{
+    constructor({x,y},width,height)
+    {
+        this.position={
+            x,y
+        }
+        this.width=width;
+        this.height=height;
     }
-    draw() {
-        context.fillStyle = 'green';
-        context.fillRect(this.position.x, this.position.y, this.width, this.height);
+    draw()
+    {
+        context.fillRect(this.position.x,this.position.y,this.width,this.height);
+        context.fillStyle='green';
+        context.fill();
+    }
+} 
+const object=new Character();  
+const multibase=[new Base({x:100,y:400},200,20),new Base({x:400,y:200},200,20),new Base({x:700,y:100},200,20),new Base({x:1100,y:200},200,20),new Base({x:-60,y:700},700,120)
+,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20)]; 
+const keys={
+    right:{
+        pressed:false
+    },
+    left:{
+        pressed:false
     }
 }
-const base = new Base();
-
-const object = new Character();
-
-
-function Move() {
-
+function Move(){
+    
+    requestAnimationFrame(Move);
     context.clearRect(0, 0, gamespace.width, gamespace.height);
     context.beginPath();
     object.removeduplicate();
-
-
-    base.draw();
-
-    if (object.position.y <= base.position.y) {
-
-        if (object.position.x > base.position.x && object.position.x < base.position.x + base.width)
-            object.velocity.y = 0;
-
+    multibase.forEach((base)=> {
+        base.draw();
+     })
+    if(keys.right.pressed && object. position.x<400)
+        object.velocity.x=5;
+    else if(keys.left.pressed && object.position.x>0)
+        object.velocity.x=-5;
+    else 
+        object.velocity.x=0;  
+    
+    if(keys.right.pressed)
+    {
+        multibase.forEach((base)=> {
+            base.draw();
+            base.position.x+=5;
+         })
+    } 
+    else if(keys.left.pressed)
+    { 
+        multibase.forEach((base)=> {
+            base.draw();
+            base.position.x-=5;
+         })
+         
     }
-    requestAnimationFrame(Move);
+
+
+    
+    multibase.forEach((base)=> {
+    if(object.position.y+50<=base.position.y && object.position.y+50+object.velocity.y>=base.position.y && object.position.x+33>=base.position.x && object.position.x<=base.position.x+base.width)
+    {
+        object.velocity.y=0; 
+    }})
+    
 }
 Move();
 
@@ -74,7 +109,7 @@ document.onkeydown = (e) => {
         // } else if (e.key === 'ArrowDown') {
         // object.radius=5;
     } else if (e.key === 'ArrowLeft') {
-        object.velocity.x = -3;
+        object.velocity.x = -20;
         if (boolleftrun){
             object.frame = { x: 0, speed: 0, start: 0, end: 3, width: 35}
             boolleftrun=false;
@@ -82,14 +117,13 @@ document.onkeydown = (e) => {
         object.charimg.src = "images/runleft.png";
 
     } else if (e.key === 'ArrowRight') {
-        object.velocity.x = 3;
+        object.velocity.x = 20;
         object.charimg.src = "images/runright.png";
         if (boolrightrun) {
             object.frame = { x: 0, speed: 0, start: 0, end: 3, width: 35}
             boolrightrun = false
         }
     }
-    // object.removeduplicate()
 }
 
 document.onkeyup = (e) => {
