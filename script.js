@@ -1,88 +1,110 @@
 let gamespace=document.getElementsByTagName("canvas")[0];
-
 const context = gamespace.getContext('2d');
 gamespace.height=innerHeight;
 gamespace.width=innerWidth;
 var g=0.5;
-
 class Character{
     constructor(){
-        this.velocity={x:0,y:5};
-        this.position={x:100,y:100};
-    
-        this.sAngle=0;
-        this.eAngle=2*Math.PI;
-        this.radius=15;
+        this.velocity={x:0,y:5}; 
+        this.position={x:100,y:600};
+        this.height=50;
+        this.width=50;
     }
     removeduplicate()
     {
         this.draw();
         this.position.x+=this.velocity.x;
         this.position.y+=this.velocity.y;
-        if(object.position.y<0.69*gamespace.height)
-        {
+        if(this.position.y+this.height+this.velocity.y<=gamespace.height)
             this.velocity.y+=g;
-        }
         else
-        {
             this.velocity.y=0;
-        }
-        
     }
     draw(){
-        context.arc(this.position.x,this.position.y,this.radius,this.sAngle,this.eAngle);
-        // context.lineWidth=18;
-        // context.strokeStyle='blue';
-        // context.stroke();
+        context.fillRect(this.position.x,this.position.y,this.width,this.height);
         context.fillStyle='red';
         context.fill();
     }  
 }
 class Base{
-    constructor(){
-        this.position={x:200,y:100};
+    constructor({x,y})
+    {
+        this.position={
+            x,y
+        }
         this.width=200;
         this.height=20;
     }
     draw()
     {
-        context.fillStyle='green';
         context.fillRect(this.position.x,this.position.y,this.width,this.height);
+        context.fillStyle='green';
+        context.fill();
+    }
+} 
+const object=new Character();  
+// const base=new Base();
+const multibase=[new Base({x:100,y:400}),new Base({x:400,y:200}),new Base({x:700,y:100})]; 
+const keys={
+    right:{
+        pressed:false
+    },
+    left:{
+        pressed:false
     }
 }
-const base=new Base();  
-
-const object=new Character();  
-
-
 function Move(){
     
     requestAnimationFrame(Move);
     context.clearRect(0, 0, gamespace.width, gamespace.height);
     context.beginPath();
     object.removeduplicate();
-    base.draw();
-
-    if(object.position.y+2*object.radius<=base.position.y)
+    multibase.forEach((base)=> {
+        base.draw();
+     })
+    if(keys.right.pressed && object. position.x<400)
+        object.velocity.x=5;
+    else if(keys.left.pressed && object.position.x>0)
+        object.velocity.x=-5;
+    else
+        object.velocity.x=0;  
+    
+    if(keys.right.pressed)
     {
-        
-        if(object.position.x>base.position.x && object.position.x<base.position.x+base.width)
-            object.velocity.y=0;
+        multibase.forEach((base)=> {
+            base.draw();
+            base.position.x-=5;
+         })
+    } 
+    else if(keys.left.pressed)
+    { 
+        multibase.forEach((base)=> {
+            base.draw();
+            base.position.x+=5;
+         })
+         
+    }
 
-    }    
+    
+    multibase.forEach((base)=> {
+    if(object.position.y+object.height<=base.position.y && object.position.y+object.height+object.velocity.y>=base.position.y && object.position.x+object.width>=base.position.x && object.position.x<=base.position.x+base.width)
+    {
+        object.velocity.y=0; 
+    }})
+    
 }
 Move();
 
 document.onkeydown = (e) => {
     e = e || window.event;
-    if (e.key === 'ArrowUp') {
-        object.velocity.y=-25;
-    } else if (e.key === 'ArrowDown') {
-        object.radius=5;
-    } else if (e.key === 'ArrowLeft') {
+    if (e.key === 'ArrowUp' ) {
+        object.velocity.y=-30; 
+    } 
+    else if (e.key === 'ArrowLeft') {
         object.velocity.x=-5;
+        keys.left.pressed=true;
     } else if (e.key === 'ArrowRight') {
-        object.velocity.x=5;
+        keys.right.pressed=true;
     }
   }
 
@@ -90,11 +112,13 @@ document.onkeydown = (e) => {
     e = e || window.event;
     if (e.key === 'ArrowUp') {
       object.velocity.y=0;
-    } else if (e.key === 'ArrowDown') {
-        object.radius=10;
-    } else if (e.key === 'ArrowLeft') {
-        object.velocity.x=0;
+    }
+    else if (e.key === 'ArrowLeft') {
+        keys.left.pressed=false;
     } else if (e.key === 'ArrowRight') {
-        object.velocity.x=0;
+        keys.right.pressed=false;
     }
   }
+
+
+  
