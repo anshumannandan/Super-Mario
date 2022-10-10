@@ -149,3 +149,18 @@ document.onkeyup = (e) => {
         boolrightrun = true;
     }
 }
+
+function ttimer() {
+    let timer = document.getElementById('timer');
+    let inittime=60;
+    timer.innerText=inittime;
+    function updatetimer() {
+        inittime--;
+    timer.innerText=inittime;
+    if (inittime==0){
+        clearInterval(updatetime)
+    }
+    }
+    const updatetime=setInterval(updatetimer,1000)
+}
+ttimer();
