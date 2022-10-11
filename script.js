@@ -4,10 +4,11 @@ gamespace.height = window.innerHeight;
 gamespace.width = window.innerWidth;
 var g = 0.5;
 let booljump = true;
+let ci;
 class Character {
     constructor() {
         this.velocity = { x: 0, y: 0 };
-        this.position = { x: 100, y: 600 };
+        this.position = { x: 100, y: 200 };
         this.frame = { x: 0, start: 0, end: 1 }
         this.speed = 0;
         this.charimg = new Image();
@@ -29,9 +30,6 @@ class Character {
         else {
             this.velocity.y = 0;
         }
-        if (this.position.y == 649.5) {
-            booljump = true;
-        }
         context.drawImage(this.charimg, 35 * this.frame.x, 0, 35, 38, this.position.x, this.position.y, 60, 60);
     }
 }
@@ -46,16 +44,33 @@ class Base {
     draw()
     {
         context.fillRect(this.position.x,this.position.y,this.width,this.height);
-        context.fillStyle="green";
+        context.fillStyle= "#3c2317";
     }
-} 
-const object=new Character();  
+}
+class Coin {
+    constructor({ x, y }) {
+        this.position = {
+            x, y
+        }
+        this.coinimg = new Image();
+        this.coinimg.src = "images/coin.png"
+    }
+    draw() {
+        context.drawImage(this.coinimg, 0, 0, 840, 316, this.position.x, this.position.y, 100, 40);
+    }
+}
+
+
+const object = new Character();
 const multibase=[new Base({x:100,y:600},200,20),new Base({x:400,y:500},200,20),new Base({x:700,y:400},200,20),new Base({x:1100,y:400},200,20),new Base({x:-60,y:700},700,120)
-,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20), new Base({x:3500,y:320},250,20),new Base({x:3900,y:220},250,20),new Base({x:4300,y:420},900,400),new Base({x:4700,y:320},300,400),
-new Base({x:5200,y:320},300,700),new Base({x:5800,y:320},100,700), new Base({x:6150,y:220},200,20), new Base({x:6550,y:420},200,20),new Base({x:z50,y:320},700,700)]; 
-const keys={
-    right:{
-        pressed:false
+    ,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20), new Base({x:3500,y:320},250,20),new Base({x:3900,y:220},250,20),new Base({x:4300,y:420},900,400),new Base({x:4700,y:320},300,400),
+    new Base({x:5200,y:320},300,700),new Base({x:5800,y:320},100,700), new Base({x:6150,y:220},200,20), new Base({x:6550,y:420},200,20)]; 
+
+const coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 })];
+
+const keys = {
+    right: {
+        pressed: false
     },
     left: {
         pressed: false
@@ -69,17 +84,20 @@ function Move() {
     object.removeduplicate();
     multibase.forEach((base) => {
         base.draw();
-     })
+    })
+    coins.forEach((coin) => {
+        try { coin.draw(); }
+        catch (err) { ; }
+    })
     if(keys.right.pressed && object. position.x<400)
         object.velocity.x=5;
-    else if(keys.left.pressed && object.position.x>100)
+    else if(keys.left.pressed && object.position.x>0)
         object.velocity.x=-5;
     else 
         object.velocity.x=0;  
-    
-    if(keys.right.pressed)
-    {
-        multibase.forEach((base)=> {
+
+    if (keys.right.pressed) {
+        multibase.forEach((base) => {
             base.draw();
             base.position.x-=5;
          })
@@ -93,18 +111,24 @@ function Move() {
          
     }
 
+    multibase.forEach((base) => {
+        if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 34 >= base.position.x && object.position.x <= base.position.x + base.width) {
+            object.velocity.y = 0;
+            booljump = true;
+        }
+    })
 
-    
-    multibase.forEach((base)=> {
-    if(object.position.y+50<=base.position.y && object.position.y+50+object.velocity.y>=base.position.y && object.position.x+33>=base.position.x && object.position.x<=base.position.x+base.width)
-    {
-        object.velocity.y=0; 
-    }})
-    if(object.position.y==gamespace.height)
-    {
-
+    for (ci = 0; ci < coins.length; ci++) {
+        try {
+            cop = coins[ci].position
+            marp = object.position
+            if (marp.y < cop.y && marp.y + 60 > cop.y + 40 && marp.x + 50 > cop.x && marp.x < cop.x + 10) {
+                delete coins[ci]
+                updatescore(100)
+            }
+        }
+        catch (err) { ; }
     }
-    
 }
 Move();
 
@@ -178,18 +202,17 @@ ttimer();
 
 let lives = document.getElementById('nofl');
 let initlives = 3;
-lives.innerText = "X"+initlives;
+lives.innerText = "X" + initlives;
 function updatelives() {
-        initlives--;
-        lives.innerText = "X"+initlives;
+    initlives--;
+    lives.innerText = "X" + initlives;
 }
 // updatelives
 
 let score = document.getElementById('score');
 let initscore = 0;
-score.innerText = "SCORE:"+initscore;
+score.innerText = "SCORE:" + initscore;
 function updatescore(n) {
-        initscore+=n;
-        score.innerText = "SCORE:"+initscore;
+    initscore += n;
+    score.innerText = "SCORE:" + initscore;
 }
-// updatescore(500)
