@@ -120,7 +120,7 @@ document.onkeydown = (e) => {
         // } else if (e.key === 'ArrowDown') {
         // 
     } else if (e.key === 'ArrowLeft') {
-        object.velocity.x = -5;
+        // object.velocity.x = -5;
         if (boolleftrun) {
             object.frame = { x: 0, start: 0, end: 3 }
             boolleftrun = false;
@@ -149,13 +149,13 @@ document.onkeyup = (e) => {
     } else if (e.key === 'ArrowLeft') {
         object.velocity.x = 0;
         object.charimg.src = "images/standleft.png";
-        object.frame = { x: 0, speed: 0, start: 0, end: 1, width: 26}
+        object.frame = { x: 0, start: 0, end: 1}
         boolleftrun=true;
         keys.left.pressed=false;
     } else if (e.key === 'ArrowRight') {
         object.velocity.x = 0;
         object.charimg.src = "images/standright.png";
-        object.frame = { x: 0, speed: 0, start: 0, end: 1, width: 26}
+        object.frame = { x: 0, start: 0, end: 1}
         boolrightrun=true;
         keys.right.pressed=false;
     }
