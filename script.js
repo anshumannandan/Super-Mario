@@ -66,7 +66,7 @@ const multibase=[new Base({x:100,y:600},200,20),new Base({x:400,y:500},200,20),n
     ,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20), new Base({x:3500,y:320},250,20),new Base({x:3900,y:220},250,20),new Base({x:4300,y:420},900,400),new Base({x:4700,y:320},300,400),
     new Base({x:5200,y:320},300,700),new Base({x:5800,y:320},100,700), new Base({x:6150,y:220},200,20), new Base({x:6550,y:420},200,20)]; 
 
-const coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 })];
+const coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 }), new Coin({x:700, y:350})];
 
 const keys = {
     right: {
@@ -103,6 +103,13 @@ function Move() {
          })
     } 
 
+    if (keys.right.pressed) {
+        coins.forEach((coin) => {
+            coin.draw();
+            coin.position.x-=5;
+         })
+    } 
+
     multibase.forEach((base) => {
         if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 34 >= base.position.x && object.position.x <= base.position.x + base.width) {
             object.velocity.y = 0;
@@ -133,10 +140,7 @@ document.onkeydown = (e) => {
             object.velocity.y = -20;
             booljump = false
         }
-        // } else if (e.key === 'ArrowDown') {
-        // 
     } else if (e.key === 'ArrowLeft') {
-        // object.velocity.x = -5;
         if (boolleftrun) {
             object.frame = { x: 0, start: 0, end: 3 }
             boolleftrun = false;
@@ -146,7 +150,6 @@ document.onkeydown = (e) => {
         keys.left.pressed=true;
 
     } else if (e.key === 'ArrowRight') {
-        // object.velocity.x = 20;
         object.charimg.src = "images/runright.png";
         if (boolrightrun) {
             object.frame = { x: 0, start: 0, end: 3 }
@@ -160,8 +163,6 @@ document.onkeyup = (e) => {
     e = e || window.event;
     if (e.key === 'ArrowUp') {
         object.velocity.y = 0;
-        // } else if (e.key === 'ArrowDown') {
-        // 
     } else if (e.key === 'ArrowLeft') {
         object.velocity.x = 0;
         object.charimg.src = "images/standleft.png";
@@ -199,7 +200,6 @@ function updatelives() {
     initlives--;
     lives.innerText = "X" + initlives;
 }
-// updatelives
 
 let score = document.getElementById('score');
 let initscore = 0;
