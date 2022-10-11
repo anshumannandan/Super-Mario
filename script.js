@@ -4,6 +4,7 @@ gamespace.height = window.innerHeight;
 gamespace.width = window.innerWidth;
 var g = 0.5;
 let booljump = true;
+let ci;
 class Character {
     constructor() {
         this.velocity = { x: 0, y: 0 };
@@ -49,9 +50,26 @@ class Base {
         context.fill();
     }
 }
+class Coin {
+    constructor({ x, y }) {
+        this.position = {
+            x, y
+        }
+        this.coinimg = new Image();
+        this.coinimg.src = "images/coin.png"
+    }
+    draw() {
+        context.drawImage(this.coinimg, 0, 0, 840, 316, this.position.x, this.position.y, 100, 40);
+    }
+}
+
+
 const object = new Character();
 const multibase = [new Base({ x: 100, y: 400 }, 200, 20), new Base({ x: 400, y: 200 }, 200, 20), new Base({ x: 700, y: 100 }, 200, 20), new Base({ x: 1100, y: 200 }, 200, 20), new Base({ x: -60, y: 700 }, 700, 120)
     , new Base({ x: 1500, y: 520 }, 300, 20), new Base({ x: 1900, y: 320 }, 900, 720), new Base({ x: 3100, y: 520 }, 250, 20)];
+
+const coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 })];
+
 const keys = {
     right: {
         pressed: false
@@ -68,6 +86,10 @@ function Move() {
     object.removeduplicate();
     multibase.forEach((base) => {
         base.draw();
+    })
+    coins.forEach((coin) => {
+        try { coin.draw(); }
+        catch (err) { ; }
     })
     // if(keys.right.pressed && object. position.x<400)
     //     object.velocity.x=5;
@@ -89,15 +111,24 @@ function Move() {
         })
     }
 
-
-
     multibase.forEach((base) => {
-        if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 33 >= base.position.x && object.position.x <= base.position.x + base.width) {
+        if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 34 >= base.position.x && object.position.x <= base.position.x + base.width) {
             object.velocity.y = 0;
             booljump = true;
         }
     })
 
+    for (ci = 0; ci < coins.length; ci++) {
+        try {
+            cop = coins[ci].position
+            marp = object.position
+            if (marp.y < cop.y && marp.y + 60 > cop.y + 40 && marp.x + 50 > cop.x && marp.x < cop.x + 10) {
+                delete coins[ci]
+                updatescore(100)
+            }
+        }
+        catch (err) { ; }
+    }
 }
 Move();
 
@@ -113,7 +144,7 @@ document.onkeydown = (e) => {
         // } else if (e.key === 'ArrowDown') {
         // 
     } else if (e.key === 'ArrowLeft') {
-        object.velocity.x = -5;
+        object.velocity.x = -2;
         if (boolleftrun) {
             object.frame = { x: 0, start: 0, end: 3 }
             boolleftrun = false;
@@ -122,7 +153,7 @@ document.onkeydown = (e) => {
         object.charimg.src = "images/runleft.png";
 
     } else if (e.key === 'ArrowRight') {
-        object.velocity.x = 5;
+        object.velocity.x = 2;
         object.charimg.src = "images/runright.png";
         if (boolrightrun) {
             object.frame = { x: 0, start: 0, end: 3 }
@@ -167,18 +198,17 @@ ttimer();
 
 let lives = document.getElementById('nofl');
 let initlives = 3;
-lives.innerText = "X"+initlives;
+lives.innerText = "X" + initlives;
 function updatelives() {
-        initlives--;
-        lives.innerText = "X"+initlives;
+    initlives--;
+    lives.innerText = "X" + initlives;
 }
 // updatelives
 
 let score = document.getElementById('score');
 let initscore = 0;
-score.innerText = "SCORE:"+initscore;
+score.innerText = "SCORE:" + initscore;
 function updatescore(n) {
-        initscore+=n;
-        score.innerText = "SCORE:"+initscore;
+    initscore += n;
+    score.innerText = "SCORE:" + initscore;
 }
-// updatescore(500)
