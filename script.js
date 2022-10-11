@@ -102,14 +102,6 @@ function Move() {
             base.position.x-=5;
          })
     } 
-    else if(keys.left.pressed)
-    { 
-        multibase.forEach((base)=> {
-            base.draw();
-            base.position.x+=5;
-         })
-         
-    }
 
     multibase.forEach((base) => {
         if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 34 >= base.position.x && object.position.x <= base.position.x + base.width) {
