@@ -115,6 +115,12 @@ function Move() {
             object.velocity.y = 0;
             booljump = true;
         }
+        if (object.position.y>base.position.y && object.position.y<base.position.y+base.width && object.position.x+50>base.position.x && object.position.x<base.position.x){
+            console.log("rightcollision");
+        }
+        if(object.position.y>base.position.y && object.position.y<base.position.y+base.width && object.position.x+50>base.position.x+base.width && object.position.x<base.position.x+base.width){
+            console.log("leftcollision");
+        }
     })
 
     for (ci = 0; ci < coins.length; ci++) {
