@@ -1,7 +1,53 @@
-*{
-    margin:0;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;900&family=Poppins&family=Press+Start+2P&family=Roboto+Mono&family=VT323&display=swap');
+
+* {
+    margin: 0;
     overflow: hidden;
+    box-sizing: border-box;
+    font-family: 'Press Start 2P', cursive;
 }
-body{
-    background: url('images/clouds.jpg');
+
+canvas {
+    background-image: url("images/bg.webp");
+    background-size: cover;
+}
+
+#container {
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    height: 15vh;
+    top: 3%;
+    text-align: center;
+}
+
+#score {
+    color: white;
+    height: 12vh;
+    width: 22%;
+    font-size: 2rem;
+    margin: 0 1%;
+    text-align: left;
+}
+
+#timer {
+    font-size: 5.5rem;
+    height: 15vh;
+    width: 15%;
+}
+
+#lives {
+    color: white;
+    height: 12vh;
+    width: 10%;
+    font-size: 3rem;
+    display: flex;
+    margin: 0 2% 0 12%;
+}
+
+#liveicon{
+    height: 45px;
+    width: 45px;
 }

@@ -3,17 +3,19 @@ const context = gamespace.getContext('2d');
 gamespace.height = window.innerHeight;
 gamespace.width = window.innerWidth;
 var g = 0.5;
+let booljump = true;
 class Character {
     constructor() {
-        this.velocity = { x: 0, y: 5 };
-        this.position = { x: 50, y: 200 };
-        this.frame = { x: 0, speed: 0, start: 0, end: 1, width: 26}
+        this.velocity = { x: 0, y: 0 };
+        this.position = { x: 100, y: 600 };
+        this.frame = { x: 0, start: 0, end: 1 }
+        this.speed = 0;
         this.charimg = new Image();
         this.charimg.src = "images/standright.png";
     }
     removeduplicate() {
-        this.frame.speed++;
-        if (this.frame.speed % 30 == 0) {
+        this.speed++;
+        if (this.speed % 30 == 0) {
             this.frame.x++;
         }
         if (this.frame.x > this.frame.end) {
@@ -21,23 +23,25 @@ class Character {
         }
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
-        if (this.position.y+this.velocity.y<=gamespace.height) {
+        if (this.position.y + this.velocity.y <= gamespace.height) {
             this.velocity.y += g;
         }
         else {
             this.velocity.y = 0;
         }
-        context.drawImage(this.charimg, this.frame.width * this.frame.x, 0, this.frame.width, 38, this.position.x, this.position.y, 60, 60);
+        if (this.position.y == 649.5) {
+            booljump = true;
+        }
+        context.drawImage(this.charimg, 35 * this.frame.x, 0, 35, 38, this.position.x, this.position.y, 60, 60);
     }
 }
-class Base{
-    constructor({x,y},width,height)
-    {
-        this.position={
-            x,y
+class Base {
+    constructor({ x, y }, width, height) {
+        this.position = {
+            x, y
         }
-        this.width=width;
-        this.height=height;
+        this.width = width;
+        this.height = height;
     }
     draw()
     {
@@ -53,17 +57,17 @@ const keys={
     right:{
         pressed:false
     },
-    left:{
-        pressed:false
+    left: {
+        pressed: false
     }
 }
-function Move(){
-    
+function Move() {
+
     requestAnimationFrame(Move);
     context.clearRect(0, 0, gamespace.width, gamespace.height);
     context.beginPath();
     object.removeduplicate();
-    multibase.forEach((base)=> {
+    multibase.forEach((base) => {
         base.draw();
      })
     if(keys.right.pressed && object. position.x<400)
@@ -109,14 +113,18 @@ let boolleftrun = true;
 document.onkeydown = (e) => {
     e = e || window.event;
     if (e.key === 'ArrowUp') {
-        object.velocity.y = -15;
+        if (booljump) {
+            object.velocity.y = -20;
+            booljump = false
+        }
         // } else if (e.key === 'ArrowDown') {
-        // object.radius=5;
+        // 
     } else if (e.key === 'ArrowLeft') {
-        // object.velocity.x = -20;
-        if (boolleftrun){
-            object.frame = { x: 0, speed: 0, start: 0, end: 3, width: 35}
-            boolleftrun=false;
+        object.velocity.x = -5;
+        if (boolleftrun) {
+            object.frame = { x: 0, start: 0, end: 3 }
+            boolleftrun = false;
+
         }
         object.charimg.src = "images/runleft.png";
         keys.left.pressed=true;
@@ -125,7 +133,7 @@ document.onkeydown = (e) => {
         // object.velocity.x = 20;
         object.charimg.src = "images/runright.png";
         if (boolrightrun) {
-            object.frame = { x: 0, speed: 0, start: 0, end: 3, width: 35}
+            object.frame = { x: 0, start: 0, end: 3 }
             boolrightrun = false
         }
         keys.right.pressed=true;
@@ -137,7 +145,7 @@ document.onkeyup = (e) => {
     if (e.key === 'ArrowUp') {
         object.velocity.y = 0;
         // } else if (e.key === 'ArrowDown') {
-        //     object.radius=10;
+        // 
     } else if (e.key === 'ArrowLeft') {
         object.velocity.x = 0;
         object.charimg.src = "images/standleft.png";
@@ -152,3 +160,36 @@ document.onkeyup = (e) => {
         keys.right.pressed=false;
     }
 }
+
+function ttimer() {
+    let timer = document.getElementById('timer');
+    let inittime = 60;
+    timer.innerText = inittime;
+    function updatetimer() {
+        inittime--;
+        timer.innerText = inittime;
+        if (inittime == 0) {
+            clearInterval(updatetime)
+        }
+    }
+    const updatetime = setInterval(updatetimer, 1000)
+}
+ttimer();
+
+let lives = document.getElementById('nofl');
+let initlives = 3;
+lives.innerText = "X"+initlives;
+function updatelives() {
+        initlives--;
+        lives.innerText = "X"+initlives;
+}
+// updatelives
+
+let score = document.getElementById('score');
+let initscore = 0;
+score.innerText = "SCORE:"+initscore;
+function updatescore(n) {
+        initscore+=n;
+        score.innerText = "SCORE:"+initscore;
+}
+// updatescore(500)
