@@ -152,15 +152,33 @@ document.onkeyup = (e) => {
 
 function ttimer() {
     let timer = document.getElementById('timer');
-    let inittime=60;
-    timer.innerText=inittime;
+    let inittime = 60;
+    timer.innerText = inittime;
     function updatetimer() {
         inittime--;
-    timer.innerText=inittime;
-    if (inittime==0){
-        clearInterval(updatetime)
+        timer.innerText = inittime;
+        if (inittime == 0) {
+            clearInterval(updatetime)
+        }
     }
-    }
-    const updatetime=setInterval(updatetimer,1000)
+    const updatetime = setInterval(updatetimer, 1000)
 }
 ttimer();
+
+let lives = document.getElementById('nofl');
+let initlives = 3;
+lives.innerText = "X"+initlives;
+function updatelives() {
+        initlives--;
+        lives.innerText = "X"+initlives;
+}
+// updatelives
+
+let score = document.getElementById('score');
+let initscore = 0;
+score.innerText = "SCORE:"+initscore;
+function updatescore(n) {
+        initscore+=n;
+        score.innerText = "SCORE:"+initscore;
+}
+// updatescore(500)
