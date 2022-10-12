@@ -51,3 +51,20 @@ canvas {
     height: 45px;
     width: 45px;
 }
+
+#gameover{
+    position: fixed;
+    display: none;
+    top: 0%;
+    margin: 10% 20% 0 20%;
+    height: 60%;
+    width: 60%;
+    background-color: black;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameover>p{
+    color: white;
+    font-size: 9em;    
+}

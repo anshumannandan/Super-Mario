@@ -27,7 +27,7 @@ class Character {
         if (this.position.y + this.velocity.y <= gamespace.height) {
             this.velocity.y += g;
         }
-        else {
+         else {
             this.velocity.y = 0;
         }
         context.drawImage(this.charimg, 35 * this.frame.x, 0, 35, 38, this.position.x, this.position.y, 60, 60);
@@ -60,9 +60,29 @@ class Coin {
     }
 }
 
+class Enemy{
+    constructor() {
+        this.velocity = { x: 0, y: 0 };
+        this.position = { x: Math.floor((Math.random() * gamespace.width) + 1), y: 200 };
+        this.enemimg = new Image();
+        this.enemimg.src = "images/enemy.png";
+    }
+    enemydraw() {
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+        if (this.position.y + this.velocity.y <= gamespace.height) {
+            this.velocity.y += g;
+        }
+        else {
+            this.velocity.y = 0;
+        }
+        context.drawImage(this.enemimg, 0, 0, 275, 220, this.position.x, this.position.y, 50, 50);
+    }
+}
 
-const object = new Character();
-const multibase=[new Base({x:0,y:750},1000,80),new Base({x:1050,y:675},130,20),new Base({x:1250,y:575},130,20),new Base({x:1450,y:750},500,80),new Base({x:2100,y:675},130,20),new Base({x:2300,y:720},130,20)
+var enem = new Enemy()
+let object = new Character();
+let multibase=[new Base({x:0,y:750},1000,80),new Base({x:1050,y:675},130,20),new Base({x:1250,y:575},130,20),new Base({x:1450,y:750},500,80),new Base({x:2100,y:675},130,20),new Base({x:2300,y:720},130,20)
 ,new Base({x:2550,y:675},500,140),new Base({x:3200,y:720},130,20),new Base({x:3400,y:750},800,80),new Base({x:4250,y:675},130,20),new Base({x:4200,y:475},130,20),new Base({x:4450,y:575},130,20),
 new Base({x:4450,y:375},130,20),new Base({x:4700,y:650},130,20),new Base({x:4950,y:750},800,80),new Base({x:5900,y:650},130,20),new Base({x:6250,y:750},70,80),new Base({x:6420,y:650},70,20),
 new Base({x:6650,y:750},400,80),new Base({x:7200,y:650},130,20),new Base({x:7450,y:750},500,80),new Base({x:8100,y:650},130,20),new Base({x:8430,y:550},130,20),new Base({x:8700,y:550},130,20),
@@ -71,7 +91,7 @@ new Base({x:8930,y:450},130,20),new Base({x:9200,y:650},130,20),new Base({x:9450
 new Base({x:12200,y:750},500,80),new Base({x:12800,y:600},130,20),new Base({x:13000,y:750},130,20),new Base({x:13200,y:600},130,20),new Base({x:13000,y:500},130,20),new Base({x:13500,y:700},130,20),
 new Base({x:13800,y:750},500,80),new Base({x:14600,y:750},500,80)]; 
 
-const coins = [new Coin({ x: 1105, y: 640 }),new Coin({ x: 1305, y: 540 }),new Coin({ x: 2155, y: 640 }),new Coin({ x: 2355, y: 685 }),new Coin({ x: 3255, y: 685 }),new Coin({ x: 4305, y: 640 }),
+let coins = [new Coin({ x: 1105, y: 640 }),new Coin({ x: 1305, y: 540 }),new Coin({ x: 2155, y: 640 }),new Coin({ x: 2355, y: 685 }),new Coin({ x: 3255, y: 685 }),new Coin({ x: 4305, y: 640 }),
     new Coin({x:4255,y:440}),new Coin({x:4505,y:540}),new Coin({x:4505,y:340}),new Coin({x:4755,y:615}),new Coin({x:5955,y:615}),new Coin({x:6440,y:615}),new Coin({x:7255,y:615}),new Coin({x:7505,y:715})
 ,new Coin({x:8485,y:515}),new Coin({x:8755,y:515}),new Coin({x:8985,y:415}),new Coin({x:9255,y:615}),new Coin({x:10055,y:615}),new Coin({x:10255,y:515}),new Coin({x:10055,y:415}),new Coin({x:10455,y:615}),
 new Coin({x:10455,y:415}),new Coin({x:10655,y:515}),new Coin({x:11705,y:565}),new Coin({x:11955,y:665}),new Coin({x:12855,y:565}),new Coin({x:13055,y:715}),new Coin({x:13255,y:565}),new Coin({x:13255,y:565}),
@@ -87,10 +107,11 @@ const keys = {
 }
 function Move() {
 
-    requestAnimationFrame(Move);
+    rafm=requestAnimationFrame(Move);
     context.clearRect(0, 0, gamespace.width, gamespace.height);
     context.beginPath();
     object.removeduplicate();
+    enem.enemydraw();
     multibase.forEach((base) => {
         base.draw();
     })
@@ -124,6 +145,9 @@ function Move() {
             object.velocity.y = 0;
             booljump = true;
         }
+        if (enem.position.y + 45 <= base.position.y && enem.position.y + 45 + enem.velocity.y >= base.position.y && enem.position.x + 34 >= base.position.x && enem.position.x <= base.position.x + base.width) {
+            enem.velocity.y = 0;
+        }
     })
 
     for (ci = 0; ci < coins.length; ci++) {
@@ -136,6 +160,30 @@ function Move() {
             }
         }
         catch (err) { ; }
+    }
+
+    if (object.position.y>=gamespace.height){
+        cancelAnimationFrame(rafm)
+        object= new Character();
+        multibase=[new Base({x:0,y:750},1000,80),new Base({x:1050,y:675},130,20),new Base({x:1250,y:575},130,20),new Base({x:1450,y:750},500,80),new Base({x:2100,y:675},130,20),new Base({x:2300,y:720},130,20)
+            ,new Base({x:2550,y:675},500,140),new Base({x:3200,y:720},130,20),new Base({x:3400,y:750},800,80),new Base({x:4250,y:675},130,20),new Base({x:4200,y:475},130,20),new Base({x:4450,y:575},130,20),
+            new Base({x:4450,y:375},130,20),new Base({x:4700,y:650},130,20),new Base({x:4950,y:750},800,80),new Base({x:5900,y:650},130,20),new Base({x:6250,y:750},70,80),new Base({x:6420,y:650},70,20),
+            new Base({x:6650,y:750},400,80),new Base({x:7200,y:650},130,20),new Base({x:7450,y:750},500,80),new Base({x:8100,y:650},130,20),new Base({x:8430,y:550},130,20),new Base({x:8700,y:550},130,20),
+            new Base({x:8930,y:450},130,20),new Base({x:9200,y:650},130,20),new Base({x:9450,y:750},500,80),new Base({x:10000,y:650},130,20),new Base({x:10200,y:550},130,20),new Base({x:10000,y:450},130,20)
+            ,new Base({x:10400,y:650},130,20),new Base({x:10400,y:450},130,20),new Base({x:10600,y:550},130,20),new Base({x:11050,y:750},500,80),new Base({x:11650,y:600},130,20),new Base({x:11900,y:700},130,20),
+            new Base({x:12200,y:750},500,80),new Base({x:12800,y:600},130,20),new Base({x:13000,y:750},130,20),new Base({x:13200,y:600},130,20),new Base({x:13000,y:500},130,20),new Base({x:13500,y:700},130,20),
+            new Base({x:13800,y:750},500,80),new Base({x:14600,y:750},500,80)]; 
+            
+            coins = [new Coin({ x: 1105, y: 640 }),new Coin({ x: 1305, y: 540 }),new Coin({ x: 2155, y: 640 }),new Coin({ x: 2355, y: 685 }),new Coin({ x: 3255, y: 685 }),new Coin({ x: 4305, y: 640 }),
+                new Coin({x:4255,y:440}),new Coin({x:4505,y:540}),new Coin({x:4505,y:340}),new Coin({x:4755,y:615}),new Coin({x:5955,y:615}),new Coin({x:6440,y:615}),new Coin({x:7255,y:615}),new Coin({x:7505,y:715})
+            ,new Coin({x:8485,y:515}),new Coin({x:8755,y:515}),new Coin({x:8985,y:415}),new Coin({x:9255,y:615}),new Coin({x:10055,y:615}),new Coin({x:10255,y:515}),new Coin({x:10055,y:415}),new Coin({x:10455,y:615}),
+            new Coin({x:10455,y:415}),new Coin({x:10655,y:515}),new Coin({x:11705,y:565}),new Coin({x:11955,y:665}),new Coin({x:12855,y:565}),new Coin({x:13055,y:715}),new Coin({x:13255,y:565}),new Coin({x:13255,y:565}),
+            new Coin({x:13055,y:465}),new Coin({x:13255,y:565}),new Coin({x:13555,y:665}),new Coin({x:13855,y:715}),new Coin({x:13960,y:715})];
+        
+        boolrightrun = true;
+        boolleftrun = true;
+        Move()
+        updatelives()
     }
 }
 Move();
@@ -153,7 +201,6 @@ document.onkeydown = (e) => {
         if (boolleftrun) {
             object.frame = { x: 0, start: 0, end: 3 }
             boolleftrun = false;
-
         }
         object.charimg.src = "images/runleft.png";
         keys.left.pressed=true;
@@ -187,26 +234,27 @@ document.onkeyup = (e) => {
     }
 }
 
-function ttimer() {
-    let timer = document.getElementById('timer');
-    let inittime = 60;
+let timer = document.getElementById('timer');
+let inittime = 60;
+timer.innerText = inittime;
+function updatetimer() {
+    inittime--;
     timer.innerText = inittime;
-    function updatetimer() {
-        inittime--;
-        timer.innerText = inittime;
-        if (inittime == 0) {
-            clearInterval(updatetime)
-        }
+    if (inittime == 0) {
+        clearInterval(updatetime)
+        gameover()
     }
-    const updatetime = setInterval(updatetimer, 1000)
 }
-ttimer();
+const updatetime = setInterval(updatetimer, 1000)
 
 let lives = document.getElementById('nofl');
 let initlives = 3;
 lives.innerText = "X" + initlives;
 function updatelives() {
     initlives--;
+    if (initlives<1){
+        gameover()
+    }
     lives.innerText = "X" + initlives;
 }
 
@@ -216,4 +264,16 @@ score.innerText = "SCORE:" + initscore;
 function updatescore(n) {
     initscore += n;
     score.innerText = "SCORE:" + initscore;
+}
+
+
+function gameover(){
+    console.log("gameover")
+    cancelAnimationFrame(rafm)
+    setTimeout(gameoverscreen,2000);
+    clearInterval(updatetime)
+}
+
+function gameoverscreen(){
+    document.getElementById('gameover').style.display="flex";
 }
