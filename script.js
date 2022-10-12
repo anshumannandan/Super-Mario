@@ -62,11 +62,20 @@ class Coin {
 
 
 const object = new Character();
-const multibase=[new Base({x:100,y:600},200,20),new Base({x:400,y:500},200,20),new Base({x:700,y:400},200,20),new Base({x:1100,y:400},200,20),new Base({x:-60,y:700},700,120)
-    ,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20), new Base({x:3500,y:320},250,20),new Base({x:3900,y:220},250,20),new Base({x:4300,y:420},900,400),new Base({x:4700,y:320},300,400),
-    new Base({x:5200,y:320},300,700),new Base({x:5800,y:320},100,700), new Base({x:6150,y:220},200,20), new Base({x:6550,y:420},200,20)]; 
+const multibase=[new Base({x:0,y:750},1000,80),new Base({x:1050,y:675},130,20),new Base({x:1250,y:575},130,20),new Base({x:1450,y:750},500,80),new Base({x:2100,y:675},130,20),new Base({x:2300,y:720},130,20)
+,new Base({x:2550,y:675},500,140),new Base({x:3200,y:720},130,20),new Base({x:3400,y:750},800,80),new Base({x:4250,y:675},130,20),new Base({x:4200,y:475},130,20),new Base({x:4450,y:575},130,20),
+new Base({x:4450,y:375},130,20),new Base({x:4700,y:650},130,20),new Base({x:4950,y:750},800,80),new Base({x:5900,y:650},130,20),new Base({x:6250,y:750},70,80),new Base({x:6420,y:650},70,20),
+new Base({x:6650,y:750},400,80),new Base({x:7200,y:650},130,20),new Base({x:7450,y:750},500,80),new Base({x:8100,y:650},130,20),new Base({x:8430,y:550},130,20),new Base({x:8700,y:550},130,20),
+new Base({x:8930,y:450},130,20),new Base({x:9200,y:650},130,20),new Base({x:9450,y:750},500,80),new Base({x:10000,y:650},130,20),new Base({x:10200,y:550},130,20),new Base({x:10000,y:450},130,20)
+,new Base({x:10400,y:650},130,20),new Base({x:10400,y:450},130,20),new Base({x:10600,y:550},130,20),new Base({x:11050,y:750},500,80),new Base({x:11650,y:600},130,20),new Base({x:11900,y:700},130,20),
+new Base({x:12200,y:750},500,80),new Base({x:12800,y:600},130,20),new Base({x:13000,y:750},130,20),new Base({x:13200,y:600},130,20),new Base({x:13000,y:500},130,20),new Base({x:13500,y:700},130,20),
+new Base({x:13800,y:750},500,80),new Base({x:14600,y:750},500,80)]; 
 
-const coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 }), new Coin({x:700, y:350})];
+const coins = [new Coin({ x: 1105, y: 640 }),new Coin({ x: 1305, y: 540 }),new Coin({ x: 2155, y: 640 }),new Coin({ x: 2355, y: 685 }),new Coin({ x: 3255, y: 685 }),new Coin({ x: 4305, y: 640 }),
+    new Coin({x:4255,y:440}),new Coin({x:4505,y:540}),new Coin({x:4505,y:340}),new Coin({x:4755,y:615}),new Coin({x:5955,y:615}),new Coin({x:6440,y:615}),new Coin({x:7255,y:615}),new Coin({x:7505,y:715})
+,new Coin({x:8485,y:515}),new Coin({x:8755,y:515}),new Coin({x:8985,y:415}),new Coin({x:9255,y:615}),new Coin({x:10055,y:615}),new Coin({x:10255,y:515}),new Coin({x:10055,y:415}),new Coin({x:10455,y:615}),
+new Coin({x:10455,y:415}),new Coin({x:10655,y:515}),new Coin({x:11705,y:565}),new Coin({x:11955,y:665}),new Coin({x:12855,y:565}),new Coin({x:13055,y:715}),new Coin({x:13255,y:565}),new Coin({x:13255,y:565}),
+new Coin({x:13055,y:465}),new Coin({x:13255,y:565}),new Coin({x:13555,y:665}),new Coin({x:13855,y:715}),new Coin({x:13960,y:715})];
 
 const keys = {
     right: {
@@ -137,7 +146,7 @@ document.onkeydown = (e) => {
     e = e || window.event;
     if (e.key === 'ArrowUp') {
         if (booljump) {
-            object.velocity.y = -20;
+            object.velocity.y = -15;
             booljump = false
         }
     } else if (e.key === 'ArrowLeft') {
