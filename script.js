@@ -5,6 +5,7 @@ gamespace.width = window.innerWidth;
 var g = 0.5;
 let booljump = true;
 let ci;
+let allowright = true;
 class Character {
     constructor() {
         this.velocity = { x: 0, y: 0 };
@@ -117,7 +118,11 @@ function Move() {
         }
         if (object.position.y>base.position.y && object.position.y<base.position.y+base.width && object.position.x+50>base.position.x && object.position.x<base.position.x){
             console.log("rightcollision");
+            allowright=false;}
+        else{
+            allowright=true;
         }
+        
         if(object.position.y>base.position.y && object.position.y<base.position.y+base.width && object.position.x+50>base.position.x+base.width && object.position.x<base.position.x+base.width){
             console.log("leftcollision");
         }
@@ -153,7 +158,7 @@ document.onkeydown = (e) => {
 
         }
         object.charimg.src = "images/runleft.png";
-        keys.left.pressed=true;
+        if (allowright){keys.left.pressed=true;}
 
     } else if (e.key === 'ArrowRight') {
         object.charimg.src = "images/runright.png";
