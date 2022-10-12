@@ -1,29 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Mario</title>
-    <link rel="icon" href="images/icon.png" type="image/icon type">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body{
+            height:100vh;
+            display:flex;
+            background-color: black;
+            justify-content:center;
+            align-items:center;
+        }
+        #logo{
+            
+        }
+
+    </style>
+    <title>Document</title>
 </head>
-
 <body>
-    <canvas></canvas>
-    <div id="container">
-        <div id="score"></div>
-        <div id="audio-score">
-            <div id="timer"></div>
-            <div id="audiobutton"><button id="audio" type="button" onclick="audio()">Music</button></div>
-        </div>
-        <div id="lives"><img src="images/icon.png" alt="lives:" id="liveicon"><p id="nofl"></p></div>
-        <div id="gameover"> <p>GAME<br>OVER</p> </div>
-    </div>
-
-
-    <script src="script.js"></script>
+    <img  id="logo" src="images/icon.png">
+    
 </body>
+<script>
 
+    var logo=document.getElementById('logo');
+    function fade_out(thing) {
+    let opacity = 1;
+  thing.style.opacity = opacity;
+
+  let id = setInterval(function () {
+    opacity -= 0.0625;
+    thing.style.opacity = opacity;
+
+    if (opacity == 0) {
+      thing.style.display = "none";
+      window.open("mario.html", "_self");
+      clearInterval(id);
+    }
+  }, 50);}
+  window.addEventListener("keydown", (event) => {
+    switch (event.key) {
+        case "Enter":fade_out(logo);}});
+
+</script>
 </html>

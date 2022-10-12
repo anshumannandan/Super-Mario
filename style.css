@@ -31,17 +31,19 @@ canvas {
 
 #score {
     color: white;
-    height: 12vh;
+    height: 15vh;
     width: 22%;
     font-size: 2rem;
-    margin: 0 1%;
-    text-align: left;
+    margin-bottom:40px;
+    text-align: left;   
+    margin-left:2%;
 }
 
 #timer {
     font-size: 5.5rem;
     height: 15vh;
     width: 100%;
+    margin-left:2%;
 }
 
 #lives {
@@ -50,7 +52,8 @@ canvas {
     width: 10%;
     font-size: 3rem;
     display: flex;
-    margin: 0 2% 0 12%;
+    margin-bottom:5%;
+    margin-left:20%;
 }
 #audio-score{
     flex-direction: column;

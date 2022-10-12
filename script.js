@@ -19,7 +19,7 @@ class Character {
         this.charimg = new Image();
         this.charimg.src = "images/standright.png";
     }
-    removeduplicate() {
+    removeduplicate(){
         this.speed++;
         if (this.speed % 30 == 0) {
             this.frame.x++;
@@ -250,7 +250,7 @@ function updatetimer() {
         gameover()
     }
 }
-const updatetime = setInterval(updatetimer, 1000)
+const updatetime = setInterval(updatetimer, 1000);
 
 let lives = document.getElementById('nofl');
 let initlives = 3;
