@@ -61,12 +61,12 @@ class Coin {
 }
 
 
-const object = new Character();
-const multibase=[new Base({x:100,y:600},200,20),new Base({x:400,y:500},200,20),new Base({x:700,y:400},200,20),new Base({x:1100,y:400},200,20),new Base({x:-60,y:700},700,120)
+var object = new Character();
+var multibase=[new Base({x:100,y:600},200,20),new Base({x:400,y:500},200,20),new Base({x:700,y:400},200,20),new Base({x:1100,y:400},200,20),new Base({x:-60,y:700},700,120)
     ,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20), new Base({x:3500,y:320},250,20),new Base({x:3900,y:220},250,20),new Base({x:4300,y:420},900,400),new Base({x:4700,y:320},300,400),
     new Base({x:5200,y:320},300,700),new Base({x:5800,y:320},100,700), new Base({x:6150,y:220},200,20), new Base({x:6550,y:420},200,20)]; 
 
-const coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 }), new Coin({x:700, y:350})];
+var coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 }), new Coin({x:700, y:350})];
 
 const keys = {
     right: {
@@ -78,7 +78,7 @@ const keys = {
 }
 function Move() {
 
-    requestAnimationFrame(Move);
+    rafm=requestAnimationFrame(Move);
     context.clearRect(0, 0, gamespace.width, gamespace.height);
     context.beginPath();
     object.removeduplicate();
@@ -128,6 +128,20 @@ function Move() {
         }
         catch (err) { ; }
     }
+
+    if (object.position.y>=gamespace.height){
+        cancelAnimationFrame(rafm)
+        object= new Character();
+        multibase = [new Base({x:100,y:600},200,20),new Base({x:400,y:500},200,20),new Base({x:700,y:400},200,20),new Base({x:1100,y:400},200,20),new Base({x:-60,y:700},700,120)
+            ,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20), new Base({x:3500,y:320},250,20),new Base({x:3900,y:220},250,20),new Base({x:4300,y:420},900,400),new Base({x:4700,y:320},300,400),
+            new Base({x:5200,y:320},300,700),new Base({x:5800,y:320},100,700), new Base({x:6150,y:220},200,20), new Base({x:6550,y:420},200,20)]; 
+        coins = [new Coin({ x: 200, y: 660 }), new Coin({ x: 250, y: 660 }), new Coin({ x: 300, y: 660 }), new Coin({ x: 400, y: 660 }), new Coin({x:700, y:350})];
+        
+        boolrightrun = true;
+        boolleftrun = true;
+        Move()
+        updatelives()
+    }
 }
 Move();
 
@@ -144,7 +158,6 @@ document.onkeydown = (e) => {
         if (boolleftrun) {
             object.frame = { x: 0, start: 0, end: 3 }
             boolleftrun = false;
-
         }
         object.charimg.src = "images/runleft.png";
         keys.left.pressed=true;
@@ -178,26 +191,27 @@ document.onkeyup = (e) => {
     }
 }
 
-function ttimer() {
-    let timer = document.getElementById('timer');
-    let inittime = 60;
+let timer = document.getElementById('timer');
+let inittime = 60;
+timer.innerText = inittime;
+function updatetimer() {
+    inittime--;
     timer.innerText = inittime;
-    function updatetimer() {
-        inittime--;
-        timer.innerText = inittime;
-        if (inittime == 0) {
-            clearInterval(updatetime)
-        }
+    if (inittime == 0) {
+        clearInterval(updatetime)
+        gameover()
     }
-    const updatetime = setInterval(updatetimer, 1000)
 }
-ttimer();
+const updatetime = setInterval(updatetimer, 1000)
 
 let lives = document.getElementById('nofl');
 let initlives = 3;
 lives.innerText = "X" + initlives;
 function updatelives() {
     initlives--;
+    if (initlives<1){
+        gameover()
+    }
     lives.innerText = "X" + initlives;
 }
 
@@ -207,4 +221,16 @@ score.innerText = "SCORE:" + initscore;
 function updatescore(n) {
     initscore += n;
     score.innerText = "SCORE:" + initscore;
+}
+
+
+function gameover(){
+    console.log("gameover")
+    cancelAnimationFrame(rafm)
+    setTimeout(gameoverscreen,2000);
+    clearInterval(updatetime)
+}
+
+function gameoverscreen(){
+    document.getElementById('gameover').style.display="flex";
 }
