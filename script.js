@@ -27,7 +27,7 @@ class Character {
         if (this.position.y + this.velocity.y <= gamespace.height) {
             this.velocity.y += g;
         }
-        else {
+         else {
             this.velocity.y = 0;
         }
         context.drawImage(this.charimg, 35 * this.frame.x, 0, 35, 38, this.position.x, this.position.y, 60, 60);
@@ -60,8 +60,30 @@ class Coin {
     }
 }
 
+class Enemy{
+    constructor() {
+        this.velocity = { x: 0, y: 0 };
+        this.position = { x: Math.floor((Math.random() * gamespace.width) + 1), y: 200 };
+        this.enemimg = new Image();
+        this.enemimg.src = "images/enemy.png";
+    }
+    enemydraw() {
+        this.position.x += this.velocity.x;
+        this.position.y += this.velocity.y;
+        if (this.position.y + this.velocity.y <= gamespace.height) {
+            this.velocity.y += g;
+        }
+        else {
+            this.velocity.y = 0;
+        }
+        context.drawImage(this.enemimg, 0, 0, 275, 220, this.position.x, this.position.y, 50, 50);
+    }
+}
+
+var enem = new Enemy()
 
 var object = new Character();
+var obj = new Character();
 var multibase=[new Base({x:100,y:600},200,20),new Base({x:400,y:500},200,20),new Base({x:700,y:400},200,20),new Base({x:1100,y:400},200,20),new Base({x:-60,y:700},700,120)
     ,new Base({x:1500,y:520},300,20), new Base({x:1900,y:320},900,720), new Base({x:3100,y:520},250,20), new Base({x:3500,y:320},250,20),new Base({x:3900,y:220},250,20),new Base({x:4300,y:420},900,400),new Base({x:4700,y:320},300,400),
     new Base({x:5200,y:320},300,700),new Base({x:5800,y:320},100,700), new Base({x:6150,y:220},200,20), new Base({x:6550,y:420},200,20)]; 
@@ -82,6 +104,7 @@ function Move() {
     context.clearRect(0, 0, gamespace.width, gamespace.height);
     context.beginPath();
     object.removeduplicate();
+    enem.enemydraw();
     multibase.forEach((base) => {
         base.draw();
     })
@@ -114,6 +137,9 @@ function Move() {
         if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 34 >= base.position.x && object.position.x <= base.position.x + base.width) {
             object.velocity.y = 0;
             booljump = true;
+        }
+        if (enem.position.y + 45 <= base.position.y && enem.position.y + 45 + enem.velocity.y >= base.position.y && enem.position.x + 34 >= base.position.x && enem.position.x <= base.position.x + base.width) {
+            enem.velocity.y = 0;
         }
     })
 
