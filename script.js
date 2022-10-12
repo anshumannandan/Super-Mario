@@ -185,8 +185,21 @@ function Move() {
         catch (err) { ; }
     }
 
+    enemies.forEach((enem) => {
+        // if (object.position.x+45>enem.position.x && object.position.x<enem.position.x && enem.position.y<object.position.y+50) {
+        //     console.log(true)
+        // }
+        if (object.position.x+45>enem.position.x && object.position.x<enem.position.x && object.position.y<enem.position.y && enem.position.y<object.position.y+50) {
+            restart();
+        }
+        
+    })
+
     if (object.position.y >= gamespace.height) {
-        cancelAnimationFrame(rafm)
+        restart();
+    }
+function restart(){
+    cancelAnimationFrame(rafm)
         object = new Character();
         multibase = [new Base({ x: 0, y: 750 }, 1000, 80), new Base({ x: 1050, y: 675 }, 130, 20), new Base({ x: 1250, y: 575 }, 130, 20), new Base({ x: 1450, y: 750 }, 500, 80), new Base({ x: 2100, y: 675 }, 130, 20), new Base({ x: 2300, y: 720 }, 130, 20)
             , new Base({ x: 2550, y: 675 }, 500, 140), new Base({ x: 3200, y: 720 }, 130, 20), new Base({ x: 3400, y: 750 }, 800, 80), new Base({ x: 4250, y: 675 }, 130, 20), new Base({ x: 4200, y: 475 }, 130, 20), new Base({ x: 4450, y: 575 }, 130, 20),
@@ -207,7 +220,8 @@ function Move() {
         boolleftrun = true;
         Move()
         updatelives()
-    }
+}
+
 }
 Move();
 
