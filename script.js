@@ -5,6 +5,11 @@ gamespace.width = window.innerWidth;
 var g = 0.5;
 let booljump = true;
 let ci;
+function audio()
+{
+    var audio = new Audio('audio/mariotheme.mp3');
+    audio.play();
+}
 class Character {
     constructor() {
         this.velocity = { x: 0, y: 0 };
