@@ -191,13 +191,14 @@ function Move() {
 
     for (ei = 0; ei < enemies.length; ei++) {
         try {
-            if (((object.position.x + 45 > enemies[ei].position.x && object.position.x < enemies[ei].position.x) || (object.position.x > enemies[ei].position.x && enemies[ei].position.x + 35 > object.position.x)) && object.position.y < enemies[ei].position.y && enemies[ei].position.y < object.position.y + 50) {
-                if (object.velocity.y == 0) {
+            if (((object.position.x + 50 > enemies[ei].position.x && object.position.x < enemies[ei].position.x) || (object.position.x > enemies[ei].position.x && enemies[ei].position.x + 35 > object.position.x)) && object.position.y < enemies[ei].position.y && enemies[ei].position.y < object.position.y + 50) {
+                if (object.velocity.y <= 0 || enemies[ei].velocity.y != 0) {
                     restart();
                 }
                 else {
-                    delete enemies[ei]
+                    updatescore(200);
                 }
+                delete enemies[ei];
             }
         }
         catch (err) { ; }
