@@ -97,7 +97,7 @@ class Enemy {
     }
 }
 
-let multibase = [new Base({ x: 300, y: 500 }, 130, 20), new Base({ x: 0, y: 750 }, 1000, 80), new Base({ x: 1050, y: 675 }, 130, 20), new Base({ x: 1250, y: 575 }, 130, 20), new Base({ x: 1450, y: 750 }, 500, 80), new Base({ x: 2100, y: 675 }, 130, 20), new Base({ x: 2300, y: 720 }, 130, 20)
+let multibase = [new Base({ x: 0, y: 750 }, 1000, 80), new Base({ x: 1050, y: 675 }, 130, 20), new Base({ x: 1250, y: 575 }, 130, 20), new Base({ x: 1450, y: 750 }, 500, 80), new Base({ x: 2100, y: 675 }, 130, 20), new Base({ x: 2300, y: 720 }, 130, 20)
     , new Base({ x: 2550, y: 675 }, 500, 140), new Base({ x: 3200, y: 720 }, 130, 20), new Base({ x: 3400, y: 750 }, 800, 80), new Base({ x: 4250, y: 675 }, 130, 20), new Base({ x: 4200, y: 475 }, 130, 20), new Base({ x: 4450, y: 575 }, 130, 20),
 new Base({ x: 4450, y: 375 }, 130, 20), new Base({ x: 4700, y: 650 }, 130, 20), new Base({ x: 4950, y: 750 }, 800, 80), new Base({ x: 5900, y: 650 }, 130, 20), new Base({ x: 6250, y: 750 }, 70, 80), new Base({ x: 6420, y: 650 }, 70, 20),
 new Base({ x: 6650, y: 750 }, 400, 80), new Base({ x: 7200, y: 650 }, 130, 20), new Base({ x: 7450, y: 750 }, 500, 80), new Base({ x: 8100, y: 650 }, 130, 20), new Base({ x: 8430, y: 550 }, 130, 20), new Base({ x: 8700, y: 550 }, 130, 20),
