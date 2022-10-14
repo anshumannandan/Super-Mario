@@ -112,7 +112,7 @@ new Coin({ x: 4255, y: 440 }), new Coin({ x: 4505, y: 540 }), new Coin({ x: 4505
 new Coin({ x: 10455, y: 415 }), new Coin({ x: 10655, y: 515 }), new Coin({ x: 11705, y: 565 }), new Coin({ x: 11955, y: 665 }), new Coin({ x: 12855, y: 565 }), new Coin({ x: 13055, y: 715 }), new Coin({ x: 13255, y: 565 }), new Coin({ x: 13255, y: 565 }),
 new Coin({ x: 13055, y: 465 }), new Coin({ x: 13255, y: 565 }), new Coin({ x: 13555, y: 665 }), new Coin({ x: 13855, y: 715 }), new Coin({ x: 13960, y: 715 })];
 
-let enemies = [new Enemy(Math.floor(Math.random() * (gamespace.width - object.position.x)) + object.position.x + 60)]
+let enemies = []
 function genenemy() {
     enemies.push(new Enemy(Math.floor(Math.random() * (gamespace.width - object.position.x)) + object.position.x + 60))
 }
@@ -200,7 +200,7 @@ function Move() {
         try {
             cop = coins[ci].position
             marp = object.position
-            if (marp.y < cop.y && marp.y + 60 > cop.y + 40 && marp.x + 50 > cop.x && marp.x < cop.x + 10) {
+            if (marp.y < cop.y && marp.y + 60 > cop.y + 40 && ((marp.x + 50 > cop.x && marp.x < cop.x + 10) || (marp.x > cop.x && cop.x + 10 > marp.x))) {
                 delete coins[ci]
                 updatescore(100)
             }
@@ -208,15 +208,21 @@ function Move() {
         catch (err) { ; }
     }
 
-    enemies.forEach((enem) => {
-        // if (object.position.x+45>enem.position.x && object.position.x<enem.position.x && enem.position.y<object.position.y+50) {
-        //     console.log(true)
-        // }
-        if ((object.position.x +40> enem.position.x) && object.position.x < enem.position.x && object.position.y < enem.position.y && enem.position.y < object.position.y + 40) {
-            restart();
+    for (ei = 0; ei < enemies.length; ei++) {
+        try {
+            if (((object.position.x + 50 > enemies[ei].position.x && object.position.x < enemies[ei].position.x) || (object.position.x > enemies[ei].position.x && enemies[ei].position.x + 35 > object.position.x)) && object.position.y < enemies[ei].position.y && enemies[ei].position.y < object.position.y + 50) {
+                if (object.velocity.y <= 0 || enemies[ei].velocity.y != 0) {
+                    restart();
+                }
+                else {
+                    updatescore(200);
+                }
+                delete enemies[ei];
+            }
         }
+        catch (err) { ; }
 
-    })
+    }
 
     if (object.position.y >= gamespace.height) {
         restart();
@@ -238,7 +244,7 @@ function Move() {
             , new Coin({ x: 8485, y: 515 }), new Coin({ x: 8755, y: 515 }), new Coin({ x: 8985, y: 415 }), new Coin({ x: 9255, y: 615 }), new Coin({ x: 10055, y: 615 }), new Coin({ x: 10255, y: 515 }), new Coin({ x: 10055, y: 415 }), new Coin({ x: 10455, y: 615 }),
         new Coin({ x: 10455, y: 415 }), new Coin({ x: 10655, y: 515 }), new Coin({ x: 11705, y: 565 }), new Coin({ x: 11955, y: 665 }), new Coin({ x: 12855, y: 565 }), new Coin({ x: 13055, y: 715 }), new Coin({ x: 13255, y: 565 }), new Coin({ x: 13255, y: 565 }),
         new Coin({ x: 13055, y: 465 }), new Coin({ x: 13255, y: 565 }), new Coin({ x: 13555, y: 665 }), new Coin({ x: 13855, y: 715 }), new Coin({ x: 13960, y: 715 })];
-        enemies = [new Enemy(Math.floor(Math.random() * (gamespace.width - object.position.x)) + object.position.x + 60)]
+        enemies = []
         boolrightrun = true;
         boolleftrun = true;
         Move()
@@ -329,10 +335,11 @@ function updatescore(n) {
 
 function gameover() {
     cancelAnimationFrame(rafm)
-    setTimeout(gameoverscreen, 2000);
+    var gameover = setTimeout(gameoverscreen(gameover), 2000);
     clearInterval(updatetime)
 }
 
-function gameoverscreen() {
+function gameoverscreen(gameover) {
     document.getElementById('gameover').style.display = "flex";
+    clearTimeout(gameover)
 }
