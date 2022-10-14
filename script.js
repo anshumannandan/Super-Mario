@@ -6,24 +6,20 @@ var g = 0.5;
 var eg = 0.25;
 let booljump = true;
 let ci;
-var isplaying=0;
+var isplaying = 0;
 var audio = new Audio('audio/mariotheme.mp3');
-function audioplay()
-{
+function audioplay() {
     // var audio = new Audio('audio/mariotheme.mp3');
-    if(isplaying==0)
-    {
+    if (isplaying == 0) {
         audio.play();
-        isplaying=1;
+        isplaying = 1;
     }
 }
-function audiomute()
-{
+function audiomute() {
     // var audio = new Audio('audio/mariotheme.mp3');
-    if(isplaying==1)
-    {
+    if (isplaying == 1) {
         audio.pause();
-        isplaying=0;
+        isplaying = 0;
     }
 }
 class Character {
@@ -35,7 +31,7 @@ class Character {
         this.charimg = new Image();
         this.charimg.src = "images/standright.png";
     }
-    removeduplicate(){
+    removeduplicate() {
         this.speed++;
         if (this.speed % 30 == 0) {
             this.frame.x++;
@@ -92,7 +88,7 @@ class Enemy {
         context.drawImage(this.enemimg, 0, 0, 275, 220, this.position.x, this.position.y, 50, 50);
         this.position.x += this.velocity.x;
         this.position.y += this.velocity.y;
-        if (this.position.y + this.velocity.y <= gamespace.height +50  &&  this.velocity.y>0) {
+        if (this.position.y + this.velocity.y <= gamespace.height + 50 && this.velocity.y > 0) {
             this.velocity.y += eg;
         }
         else {
@@ -101,14 +97,14 @@ class Enemy {
     }
 }
 
-let multibase = [new Base({ x: 300, y: 500 }, 130, 20),new Base({ x: 0, y: 750 }, 1000, 80), new Base({ x: 1050, y: 675 }, 130, 20), new Base({ x: 1250, y: 575 }, 130, 20), new Base({ x: 1450, y: 750 }, 500, 80), new Base({ x: 2100, y: 675 }, 130, 20), new Base({ x: 2300, y: 720 }, 130, 20)
+let multibase = [new Base({ x: 300, y: 500 }, 130, 20), new Base({ x: 0, y: 750 }, 1000, 80), new Base({ x: 1050, y: 675 }, 130, 20), new Base({ x: 1250, y: 575 }, 130, 20), new Base({ x: 1450, y: 750 }, 500, 80), new Base({ x: 2100, y: 675 }, 130, 20), new Base({ x: 2300, y: 720 }, 130, 20)
     , new Base({ x: 2550, y: 675 }, 500, 140), new Base({ x: 3200, y: 720 }, 130, 20), new Base({ x: 3400, y: 750 }, 800, 80), new Base({ x: 4250, y: 675 }, 130, 20), new Base({ x: 4200, y: 475 }, 130, 20), new Base({ x: 4450, y: 575 }, 130, 20),
 new Base({ x: 4450, y: 375 }, 130, 20), new Base({ x: 4700, y: 650 }, 130, 20), new Base({ x: 4950, y: 750 }, 800, 80), new Base({ x: 5900, y: 650 }, 130, 20), new Base({ x: 6250, y: 750 }, 70, 80), new Base({ x: 6420, y: 650 }, 70, 20),
 new Base({ x: 6650, y: 750 }, 400, 80), new Base({ x: 7200, y: 650 }, 130, 20), new Base({ x: 7450, y: 750 }, 500, 80), new Base({ x: 8100, y: 650 }, 130, 20), new Base({ x: 8430, y: 550 }, 130, 20), new Base({ x: 8700, y: 550 }, 130, 20),
 new Base({ x: 8930, y: 450 }, 130, 20), new Base({ x: 9200, y: 650 }, 130, 20), new Base({ x: 9450, y: 750 }, 500, 80), new Base({ x: 10000, y: 650 }, 130, 20), new Base({ x: 10200, y: 550 }, 130, 20), new Base({ x: 10000, y: 450 }, 130, 20)
     , new Base({ x: 10400, y: 650 }, 130, 20), new Base({ x: 10400, y: 450 }, 130, 20), new Base({ x: 10600, y: 550 }, 130, 20), new Base({ x: 11050, y: 750 }, 500, 80), new Base({ x: 11650, y: 600 }, 130, 20), new Base({ x: 11900, y: 700 }, 130, 20),
 new Base({ x: 12200, y: 750 }, 500, 80), new Base({ x: 12800, y: 600 }, 130, 20), new Base({ x: 13000, y: 750 }, 130, 20), new Base({ x: 13200, y: 600 }, 130, 20), new Base({ x: 13000, y: 500 }, 130, 20), new Base({ x: 13500, y: 700 }, 130, 20),
-new Base({ x: 13800, y: 750 }, 500, 80), new Base({ x: 14600, y: 750 }, 500, 80)];
+new Base({ x: 13800, y: 750 }, 500, 80), new Base({ x: 14600, y: 750 }, 569, 80)];
 
 let coins = [new Coin({ x: 1105, y: 640 }), new Coin({ x: 1305, y: 540 }), new Coin({ x: 2155, y: 640 }), new Coin({ x: 2355, y: 685 }), new Coin({ x: 3255, y: 685 }), new Coin({ x: 4305, y: 640 }),
 new Coin({ x: 4255, y: 440 }), new Coin({ x: 4505, y: 540 }), new Coin({ x: 4505, y: 340 }), new Coin({ x: 4755, y: 615 }), new Coin({ x: 5955, y: 615 }), new Coin({ x: 6440, y: 615 }), new Coin({ x: 7255, y: 615 }), new Coin({ x: 7505, y: 715 })
@@ -175,21 +171,27 @@ function Move() {
         })
     }
 
-    if (object.position.x >= 14700) {
-        gameover()
+    if (object.position.x >= 14550) {
+        gameover();
     }
     multibase.forEach((base) => {
-        if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 34 >= base.position.x && object.position.x <= base.position.x + base.width) {
+
+        if ((object.position.y>base.position.y && object.position.y<base.position.y+base.height)  && object.position.x + 35 >= base.position.x && object.position.x + 30<= base.position.x + base.width) {
+                object.velocity.y=1;
+        }
+        if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 35 >= base.position.x && object.position.x + 30<= base.position.x + base.width) {
             object.velocity.y = 0;
             booljump = true;
         }
+        
         try {
             enemies.forEach((enem) => {
-                if (enem.position.y + 50 >= base.position.y && enem.position.y + 50 >= base.position.y && enem.position.x + 34 >= base.position.x && enem.position.x <= base.position.x + base.width) {
+                if (enem.position.y + 50 >= base.position.y && enem.position.y + 50 >= base.position.y && enem.position.x + 35 >= base.position.x && enem.position.x + 30 <= base.position.x + base.width) {
                     enem.velocity.y = 0;
                 }
             })
         }
+        
         catch (arr) { ; }
 
     })
@@ -210,17 +212,17 @@ function Move() {
         // if (object.position.x+45>enem.position.x && object.position.x<enem.position.x && enem.position.y<object.position.y+50) {
         //     console.log(true)
         // }
-        if (object.position.x+45>enem.position.x && object.position.x<enem.position.x && object.position.y<enem.position.y && enem.position.y<object.position.y+50) {
+        if ((object.position.x +40> enem.position.x) && object.position.x < enem.position.x && object.position.y < enem.position.y && enem.position.y < object.position.y + 40) {
             restart();
         }
-        
+
     })
 
     if (object.position.y >= gamespace.height) {
         restart();
     }
-function restart(){
-    cancelAnimationFrame(rafm)
+    function restart() {
+        cancelAnimationFrame(rafm)
         object = new Character();
         multibase = [new Base({ x: 0, y: 750 }, 1000, 80), new Base({ x: 1050, y: 675 }, 130, 20), new Base({ x: 1250, y: 575 }, 130, 20), new Base({ x: 1450, y: 750 }, 500, 80), new Base({ x: 2100, y: 675 }, 130, 20), new Base({ x: 2300, y: 720 }, 130, 20)
             , new Base({ x: 2550, y: 675 }, 500, 140), new Base({ x: 3200, y: 720 }, 130, 20), new Base({ x: 3400, y: 750 }, 800, 80), new Base({ x: 4250, y: 675 }, 130, 20), new Base({ x: 4200, y: 475 }, 130, 20), new Base({ x: 4450, y: 575 }, 130, 20),
@@ -241,7 +243,7 @@ function restart(){
         boolleftrun = true;
         Move()
         updatelives()
-}
+    }
 
 }
 Move();
