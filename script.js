@@ -6,9 +6,10 @@ const g = 0.5;
 const eg = 0.25;
 let booljump = true;
 let ci;
-let isplaying = 0;
+let basepos;
 const audio = new Audio('audio/mariotheme.mp3');
 const coinaudio = new Audio('audio/coin.mp3');
+let isplaying = 0;
 let audbut = document.getElementById('audio');
 function audioplay() {
     if (isplaying == 0) {
@@ -25,7 +26,7 @@ function audioplay() {
 class Character {
     constructor() {
         this.velocity = { x: 0, y: 0 };
-        this.position = { x: 100, y: 200 };
+        this.position = { x: 100, y: 700 };
         this.frame = { x: 0, start: 0, end: 1 };
         this.speed = 0;
         this.charimg = new Image();
@@ -104,7 +105,7 @@ new Base({ x: 6650, y: 750 }, 400, 80), new Base({ x: 7200, y: 650 }, 130, 20), 
 new Base({ x: 8930, y: 450 }, 130, 20), new Base({ x: 9200, y: 650 }, 130, 20), new Base({ x: 9450, y: 750 }, 500, 80), new Base({ x: 10000, y: 650 }, 130, 20), new Base({ x: 10200, y: 550 }, 130, 20), new Base({ x: 10000, y: 450 }, 130, 20)
     , new Base({ x: 10400, y: 650 }, 130, 20), new Base({ x: 10400, y: 450 }, 130, 20), new Base({ x: 10600, y: 550 }, 130, 20), new Base({ x: 11050, y: 750 }, 500, 80), new Base({ x: 11650, y: 600 }, 130, 20), new Base({ x: 11900, y: 700 }, 130, 20),
 new Base({ x: 12200, y: 750 }, 500, 80), new Base({ x: 12800, y: 600 }, 130, 20), new Base({ x: 13000, y: 750 }, 130, 20), new Base({ x: 13200, y: 600 }, 130, 20), new Base({ x: 13000, y: 500 }, 130, 20), new Base({ x: 13500, y: 700 }, 130, 20),
-new Base({ x: 13800, y: 750 }, 500, 80), new Base({ x: 14600, y: 750 }, 569, 80)];
+new Base({ x: 13800, y: 750 }, 500, 80), new Base({ x: 14600, y: 750 }, 600, 80)];
 
 let coins = [new Coin({ x: 1105, y: 640 }), new Coin({ x: 1305, y: 540 }), new Coin({ x: 2155, y: 640 }), new Coin({ x: 2355, y: 685 }), new Coin({ x: 3255, y: 685 }), new Coin({ x: 4305, y: 640 }),
 new Coin({ x: 4255, y: 440 }), new Coin({ x: 4505, y: 540 }), new Coin({ x: 4505, y: 340 }), new Coin({ x: 4755, y: 615 }), new Coin({ x: 5955, y: 615 }), new Coin({ x: 6440, y: 615 }), new Coin({ x: 7255, y: 615 }), new Coin({ x: 7505, y: 715 })
@@ -171,9 +172,6 @@ function Move() {
         })
     }
 
-    if (object.position.x >= 14550) {
-        gameover();
-    }
     multibase.forEach((base) => {
 
         if ((object.position.y > base.position.y && object.position.y < base.position.y + base.height) && object.position.x + 35 >= base.position.x && object.position.x + 30 <= base.position.x + base.width) {
@@ -239,7 +237,7 @@ function Move() {
         new Base({ x: 8930, y: 450 }, 130, 20), new Base({ x: 9200, y: 650 }, 130, 20), new Base({ x: 9450, y: 750 }, 500, 80), new Base({ x: 10000, y: 650 }, 130, 20), new Base({ x: 10200, y: 550 }, 130, 20), new Base({ x: 10000, y: 450 }, 130, 20)
             , new Base({ x: 10400, y: 650 }, 130, 20), new Base({ x: 10400, y: 450 }, 130, 20), new Base({ x: 10600, y: 550 }, 130, 20), new Base({ x: 11050, y: 750 }, 500, 80), new Base({ x: 11650, y: 600 }, 130, 20), new Base({ x: 11900, y: 700 }, 130, 20),
         new Base({ x: 12200, y: 750 }, 500, 80), new Base({ x: 12800, y: 600 }, 130, 20), new Base({ x: 13000, y: 750 }, 130, 20), new Base({ x: 13200, y: 600 }, 130, 20), new Base({ x: 13000, y: 500 }, 130, 20), new Base({ x: 13500, y: 700 }, 130, 20),
-        new Base({ x: 13800, y: 750 }, 500, 80), new Base({ x: 14600, y: 750 }, 500, 80)];
+        new Base({ x: 13800, y: 750 }, 500, 80), new Base({ x: 14600, y: 750 }, 600, 80)];
 
         coins = [new Coin({ x: 1105, y: 640 }), new Coin({ x: 1305, y: 540 }), new Coin({ x: 2155, y: 640 }), new Coin({ x: 2355, y: 685 }), new Coin({ x: 3255, y: 685 }), new Coin({ x: 4305, y: 640 }),
         new Coin({ x: 4255, y: 440 }), new Coin({ x: 4505, y: 540 }), new Coin({ x: 4505, y: 340 }), new Coin({ x: 4755, y: 615 }), new Coin({ x: 5955, y: 615 }), new Coin({ x: 6440, y: 615 }), new Coin({ x: 7255, y: 615 }), new Coin({ x: 7505, y: 715 })
