@@ -1,25 +1,25 @@
-let gamespace = document.getElementsByTagName("canvas")[0];
+const gamespace = document.getElementsByTagName("canvas")[0];
 const context = gamespace.getContext('2d');
 gamespace.height = window.innerHeight;
 gamespace.width = window.innerWidth;
-var g = 0.5;
-var eg = 0.25;
+const g = 0.5;
+const eg = 0.25;
 let booljump = true;
 let ci;
-var isplaying = 0;
-var audio = new Audio('audio/mariotheme.mp3');
+let isplaying = 0;
+const audio = new Audio('audio/mariotheme.mp3');
+const coinaudio = new Audio('audio/coin.mp3');
+let audbut = document.getElementById('audio');
 function audioplay() {
-    // var audio = new Audio('audio/mariotheme.mp3');
     if (isplaying == 0) {
         audio.play();
         isplaying = 1;
+        audbut.innerText="MUSIC OFF";
     }
-}
-function audiomute() {
-    // var audio = new Audio('audio/mariotheme.mp3');
-    if (isplaying == 1) {
+    else if (isplaying == 1) {
         audio.pause();
         isplaying = 0;
+        audbut.innerText="MUSIC ON";
     }
 }
 class Character {
@@ -176,14 +176,14 @@ function Move() {
     }
     multibase.forEach((base) => {
 
-        if ((object.position.y>base.position.y && object.position.y<base.position.y+base.height)  && object.position.x + 35 >= base.position.x && object.position.x + 30<= base.position.x + base.width) {
-                object.velocity.y=1;
+        if ((object.position.y > base.position.y && object.position.y < base.position.y + base.height) && object.position.x + 35 >= base.position.x && object.position.x + 30 <= base.position.x + base.width) {
+            object.velocity.y = 1;
         }
-        if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 35 >= base.position.x && object.position.x + 30<= base.position.x + base.width) {
+        if (object.position.y + 50 <= base.position.y && object.position.y + 50 + object.velocity.y >= base.position.y && object.position.x + 35 >= base.position.x && object.position.x + 30 <= base.position.x + base.width) {
             object.velocity.y = 0;
             booljump = true;
         }
-        
+
         try {
             enemies.forEach((enem) => {
                 if (enem.position.y + 50 >= base.position.y && enem.position.y + 50 >= base.position.y && enem.position.x + 35 >= base.position.x && enem.position.x + 30 <= base.position.x + base.width) {
@@ -191,7 +191,7 @@ function Move() {
                 }
             })
         }
-        
+
         catch (arr) { ; }
 
     })
@@ -202,7 +202,9 @@ function Move() {
             marp = object.position
             if (marp.y < cop.y && marp.y + 60 > cop.y + 40 && ((marp.x + 50 > cop.x && marp.x < cop.x + 10) || (marp.x > cop.x && cop.x + 10 > marp.x))) {
                 delete coins[ci]
-                updatescore(100)
+                updatescore(50)
+                coinaudio.currentTime=0;
+                coinaudio.play();
             }
         }
         catch (err) { ; }
@@ -215,7 +217,7 @@ function Move() {
                     restart();
                 }
                 else {
-                    updatescore(200);
+                    updatescore(100);
                 }
                 delete enemies[ei];
             }
@@ -301,7 +303,7 @@ document.onkeyup = (e) => {
 }
 
 let timer = document.getElementById('timer');
-let inittime = 60;
+let inittime = 100;
 timer.innerText = inittime;
 function updatetimer() {
     inittime--;
@@ -342,4 +344,5 @@ function gameover() {
 function gameoverscreen(gameover) {
     document.getElementById('gameover').style.display = "flex";
     clearTimeout(gameover)
+    audio.pause()
 }
